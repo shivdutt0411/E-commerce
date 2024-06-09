@@ -4,7 +4,8 @@ import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/productActions";
-import { useState } from "react";
+import { useState , useContext} from "react";
+import { DataContext } from "../../context/DataProvider";
 
 const Container = styled(Box)(({theme})=>({
     minWidth:"40%",
@@ -27,6 +28,7 @@ const StyledButton = styled(Button)(({theme})=>({
     width:"48%",
     height:"50px",
     borderRadius:"2px",
+    
     [theme.breakpoints.down("lg")]:{
         width:"46%"
     },
@@ -34,8 +36,10 @@ const StyledButton = styled(Button)(({theme})=>({
         width:"48%"
     }
 
+
 }))
 export default function ActionItem({product}){
+    const {details} = useContext(DataContext)
     const [quantity,setQuantity] = useState(1);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -51,8 +55,8 @@ export default function ActionItem({product}){
     border:"1px solid #f0f0f0"}}>
             <Image src={product.detailUrl} alt="DetaulImage" />
             </Box>
-            <StyledButton variant="contained" style={{marginRight:10,background:"#ff9f00"}} onClick={navigateToCart}><ShoppingCartIcon />Add to Cart</StyledButton>
-            <StyledButton variant="contained" style={{background:"#fb541b"}}><FlashOnIcon />Buy Now</StyledButton>
+            <StyledButton variant="contained" style={{marginRight:10,background:details?"#ff9f00":"#f0f0f0"}} onClick={navigateToCart} disabled={details?false:true}><ShoppingCartIcon />Add to Cart</StyledButton>
+            <StyledButton variant="contained" style={{background:details?"#fb541b":"#f0f0f0"}} disabled={details?false:true}><FlashOnIcon />Buy Now</StyledButton>
         </Container>
     )
 
