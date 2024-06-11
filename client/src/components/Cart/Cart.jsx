@@ -1,8 +1,9 @@
 import {Grid,Typography,Box,styled,Button} from "@mui/material"
-import { useSelector } from "react-redux"
 import CartItem from "./cartItem"
 import Balance from "./balance"
 import EmptyCart from "./EmptyCart"
+import { useContext } from "react"
+import { DataContext } from "../../context/DataProvider"
 
 const Container = styled(Grid)(({theme})=>({
     padding:"30px 135px",
@@ -45,11 +46,12 @@ const LeftComponent = styled(Grid)(({theme})=>({
 }))
 
 export default function Cart(){
-    const {cartItems} = useSelector(state=>state.cart)
+    
+    const {cartItems,details} = useContext(DataContext);
     return(
         <>
         {
-            cartItems && cartItems.length ?
+            Object.keys(details).length!==0 && cartItems && cartItems.length ?
             <Container container>
             <LeftComponent item lg={9} md={9} sm={12} xs={12}>
             <Header>
