@@ -19,7 +19,7 @@ export default function EmptyCart(){
         <Component>
         <EmptyContainer>
             <img src={imgurl} alt="empty" style={{width:"20%"}}/>
-            {details?<><Typography>Your Cart is empty</Typography>
+            {Object.keys(details).length!==0?<><Typography>Your Cart is empty</Typography>
                 <Typography>Add items to your cart</Typography></>:
                 <><Typography>Missing your cart?</Typography>
                 <Typography>Login to see your cart</Typography></>}
