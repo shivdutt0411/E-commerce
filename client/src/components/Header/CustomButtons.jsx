@@ -6,7 +6,7 @@ import {useState,useContext} from "react";
 import { DataContext } from "../../context/DataProvider";
 import Profile from "./profile";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 
 const Wrapper = styled(Box)(({theme})=>({
     display:"flex",
@@ -33,14 +33,13 @@ const LoginButton = styled(Button)({
 
 })
 export default function CustomButtons(){
-    const {cartItems} = useSelector(state=>state.cart)
     const [open,setOpen] = useState(false);
-    const{details,setDetails} = useContext(DataContext);
+    const{details,setDetails,cartItems,setCartItems} = useContext(DataContext);
     function handleClick(){
         setOpen(true);
     }
     return (<Wrapper>
-    {details?<Profile details={details} setDetails = {setDetails}/>:<LoginButton variant="contained" onClick={handleClick}>Login</LoginButton>}
+    {Object.keys(details).length!==0?<Profile details={details} setDetails = {setDetails} setCartItems = {setCartItems}/>:<LoginButton variant="contained" onClick={handleClick}>Login</LoginButton>}
     <Typography style={{marginTop:"3px", width:"135px"}}>Become a Seller</Typography>
     <Typography style={{marginTop:"3px"}}>More</Typography>
     <Box style={{display:"flex"}}>
