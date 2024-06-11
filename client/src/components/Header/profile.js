@@ -16,7 +16,7 @@ const StyledLogout = styled(Typography)({
 })
 
 
-export default function Profile({ details,setDetails }) {
+export default function Profile({ details,setDetails,setCartItems }) {
     const [open, setOpen] = useState(false);
     const handleClick = (event) => {
         setOpen(event.currentTarget);
@@ -26,7 +26,8 @@ export default function Profile({ details,setDetails }) {
     };
 
     const Logout = ()=>{
-        setDetails("");
+        setDetails({});
+        setCartItems([]);
 
     }
 
@@ -34,7 +35,7 @@ export default function Profile({ details,setDetails }) {
     return (
         <>
             <Box>
-                <Typography style={{ marginTop: "3px", cursor: "pointer" }} onClick={(e) => handleClick(e)}>{details}</Typography>
+                <Typography style={{ marginTop: "3px", cursor: "pointer" }} onClick={(e) => handleClick(e)}>{details.firstName}</Typography>
                 <StyledMenu
                     id="basic-menu"
                     anchorEl={open}
