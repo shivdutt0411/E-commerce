@@ -1,8 +1,10 @@
 import { Box,Button,Typography,styled } from "@mui/material";
 import { addEllipsis } from "../../utils/commomnUtils";
 import ButtonGroups from "./ButtonGroup"
-import { useDispatch } from "react-redux";
-import { deleteFromCart } from "../../redux/actions/productActions";
+import { deleteFromCart } from "../../services/deleteFromCart";
+import { displayCart } from "../../services/displayCart";
+import { DataContext } from "../../context/DataProvider";
+import { useContext } from "react";
 
 const Wrapper = styled(Box)({
     borderTop:"1px solid #f0f0f0",
@@ -30,10 +32,12 @@ const RemoveButton = styled(Button)({
 })
 
 export default function CartItem({item}){
-    const dispatch = useDispatch();
+    const{details,setCartItems} = useContext(DataContext);
 
-    const removeItemFromCart = (id)=>{
-        dispatch(deleteFromCart(id))
+    async function removeItemFromCart(){
+        await deleteFromCart(details.userName,item.id);
+        const {cart} = await displayCart(details.userName);
+        setCartItems(cart);
     }
 
     const fassured = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png'
@@ -56,7 +60,7 @@ export default function CartItem({item}){
            <Box component="span" style={{color:"#388E3C",marginLeft:"10px"}}>{item.price?.discount}</Box>
                     
                 </Typography>
-                <RemoveButton onClick={()=>removeItemFromCart(item.id)}>REMOVE</RemoveButton>
+                <RemoveButton onClick={removeItemFromCart}>REMOVE</RemoveButton>
             </Box>
         </Wrapper>
     )
