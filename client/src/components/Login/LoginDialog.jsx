@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { authenticatesignUp } from "../../services/signUp";
 import { DataContext } from "../../context/DataProvider";
 import { authenticatelogin } from "../../services/login";
+import { displayCart } from "../../services/displayCart";
 
 
 const Wrapper = styled(Box)({
@@ -91,7 +92,7 @@ export default function LoginDialog({ open, setOpen }) {
     const [signUp, setSignUp] = useState(initialSignUp);
     const[error,setError] = useState(false);
     const [login, setLogin] = useState(initialLogin)
-    const { setDetails } = useContext(DataContext);
+    const { setDetails,setCartItems } = useContext(DataContext);
     function handleClose() {
         setOpen(false);
         setToggle(account.login);
@@ -101,6 +102,7 @@ export default function LoginDialog({ open, setOpen }) {
 
     function handleOpen() {
         setToggle(account.signup);
+        
     }
 
     function onInput(e) {
@@ -129,7 +131,10 @@ export default function LoginDialog({ open, setOpen }) {
             let response = await authenticatelogin(login);
             if (response.message.firstName) {
                 handleClose();
-                setDetails(response.message.firstName);
+                setDetails({firstName:response.message.firstName,userName:response.message.userName});
+                const {cart} = await displayCart(response.message.userName);
+                setCartItems(cart);
+
             }
             else{
                 setError(true);
